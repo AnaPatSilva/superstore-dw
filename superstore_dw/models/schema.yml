@@ -2,7 +2,7 @@ version: 2
 
 sources:
   - name: norm
-    database: group3
+    database: group1
     schema: norm
     tables:
      - name: t_employee
