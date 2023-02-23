@@ -2,21 +2,40 @@ version: 2
 
 sources:
   - name: norm
-    database: group3
+    database: group1
     schema: norm
     tables:
+     - name: t_category
+     - name: t_city
+     - name: t_country
+     - name: t_customer     
      - name: t_employee
+     - name: t_order
+     - name: t_order_line
+     - name: t_postal_code
+     - name: t_product
      - name: t_region
+     - name: t_return
+     - name: t_segment
+     - name: t_ship_mode
+     - name: t_shipment     
+     - name: t_state    
+     - name: t_stock_movement      
 
 models:
   - name: stg_employee
     columns:
-      - name: employee_id
-        description: "A unique identifier for the employee"
+      - name: sk_employee
+        description: "Surrogate key for employee"
         tests:
           - unique
           - not_null
+      - name: employee_id
+        description: "A unique identifier for the employee"
+        tests:
+          - unique # ver se faz sentido manter estes dois testes para a PK do employee visto que a ligação é feita pela SK 
+          - not_null
       - name: employee_name
         description: "The name of the employee"
-      - name: region
-        description: "The region this employee is responsible for"
+      - name: created_at
+        description: "Date whenever a new line is created"

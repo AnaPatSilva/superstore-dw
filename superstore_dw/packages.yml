@@ -1,0 +1,3 @@
+packages: # ficheiro criado para instalar o package dbt_utils que permite, por exemplo, criar surrogate keys -> correr dbt deps 
+  - package: dbt-labs/dbt_utils
+    version: 1.0.0
