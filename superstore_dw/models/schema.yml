@@ -28,8 +28,8 @@ models:
       - name: sk_employee
         description: "Surrogate key for employee"
         tests:
-          - unique
-          - not_null
+          - unique # chave deve ser única
+          - not_null # chave não deve ser nula 
       - name: employee_id
         description: "A unique identifier for the employee"
         tests:
@@ -49,16 +49,15 @@ models:
       - name: customer_id
         description: "A unique identifier for the customer"
         tests:
-          - unique # ver se faz sentido manter estes dois testes para a PK do employee visto que a ligação é feita pela SK 
+          - unique 
           - not_null
       - name: customer_name
         description: "Customer's name"
       - name: segment
         description: "Order segment"
         tests:
-        tests:
           - accepted_values:
-              values: ['Consumer', 'Home Office', 'Corporate']
+              values: ['Consumer', 'Home Office', 'Corporate'] # segmento da order deve ser um destes três 
       - name: created_at
         description: "Date whenever a new line is created"
   - name: dim_geography # nova tabela 
