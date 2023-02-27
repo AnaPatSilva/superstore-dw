@@ -11,6 +11,6 @@
 
 select
     *
-from {{ ref('stg_employee') }}
+from {{ ref('dim_employee') }}
 
 {% endsnapshot %}

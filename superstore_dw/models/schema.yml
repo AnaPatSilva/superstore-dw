@@ -23,7 +23,7 @@ sources:
      - name: t_stock_movement      
 
 models:
-  - name: stg_employee
+  - name: dim_employee
     columns:
       - name: sk_employee
         description: "Surrogate key for employee"
@@ -33,9 +33,65 @@ models:
       - name: employee_id
         description: "A unique identifier for the employee"
         tests:
-          - unique # ver se faz sentido manter estes dois testes para a PK do employee visto que a ligação é feita pela SK 
+          - unique 
           - not_null
       - name: employee_name
-        description: "The name of the employee"
+        description: "Employee's name"
       - name: created_at
         description: "Date whenever a new line is created"
+  - name: dim_customer # nova tabela 
+    columns:
+      - name: sk_customer
+        description: "Surrogate key for customer"
+        tests:
+          - unique
+          - not_null
+      - name: customer_id
+        description: "A unique identifier for the customer"
+        tests:
+          - unique # ver se faz sentido manter estes dois testes para a PK do employee visto que a ligação é feita pela SK 
+          - not_null
+      - name: customer_name
+        description: "Customer's name"
+      - name: segment
+        description: "Order segment"
+        tests:
+        tests:
+          - accepted_values:
+              values: ['Consumer', 'Home Office', 'Corporate']
+      - name: created_at
+        description: "Date whenever a new line is created"
+  - name: dim_geography # nova tabela 
+    columns:
+      - name: sk_geography
+        description: "Surrogate key for geography"
+        tests:
+          - unique
+          - not_null
+      - name: city
+        description: "Place of order: City"
+      - name: state
+        description: "Place of order: State"
+      - name: region
+        description: "Place of order: Region"
+      - name: country
+        description: "Place of order: Country"
+      - name: created_at
+        description: "Date whenever a new line is created"
+  - name: dim_date # nova tabela 
+    columns:
+      - name: sk_date
+        description: "Surrogate key for date"
+        tests:
+          - unique
+          - not_null
+#      - name: 
+#        description: "Place of order: City"
+#      - name: state
+#        description: "Place of order: State"
+#      - name: region
+#        description: "Place of order: Region"
+#      - name: country
+#        description: "Place of order: Country"
+#      - name: created_at
+#        description: "Date whenever a new line is created"
