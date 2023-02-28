@@ -2,21 +2,111 @@ version: 2
 
 sources:
   - name: norm
-    database: group3
+    database: group1
     schema: norm
     tables:
+     - name: t_category
+     - name: t_city
+     - name: t_country
+     - name: t_customer     
      - name: t_employee
+     - name: t_order
+     - name: t_order_line
+     - name: t_postal_code
+     - name: t_product
      - name: t_region
+     - name: t_return
+     - name: t_segment
+     - name: t_ship_mode
+     - name: t_shipment     
+     - name: t_state    
+     - name: t_stock_movement   
+  - name: dw
+    database: group1
+    schema: dw
+    tables:
+     - name: dim_customer
+     - name: dim_employee
+     - name: dim_date
+     - name: dim_geography
+     - name: fact_order 
 
 models:
-  - name: stg_employee
+  - name: dim_employee
     columns:
+      - name: sk_employee
+        description: "Surrogate key for employee"
+        tests:
+          - unique # chave deve ser única
+          - not_null # chave não deve ser nula 
       - name: employee_id
         description: "A unique identifier for the employee"
         tests:
-          - unique
+          - unique 
           - not_null
       - name: employee_name
-        description: "The name of the employee"
+        description: "Employee's name"
+      - name: created_at
+        description: "Date whenever a new line is created"
+  - name: dim_customer # nova tabela 
+    columns:
+      - name: sk_customer
+        description: "Surrogate key for customer"
+        tests:
+          - unique
+          - not_null
+      - name: customer_id
+        description: "A unique identifier for the customer"
+        tests:
+          - unique 
+          - not_null
+      - name: customer_name
+        description: "Customer's name"
+      - name: segment
+        description: "Order segment"
+        tests:
+          - accepted_values:
+              values: ['Consumer', 'Home Office', 'Corporate'] # segmento da order deve ser um destes três 
+      - name: created_at
+        description: "Date whenever a new line is created"
+  - name: dim_geography # nova tabela 
+    columns:
+      - name: sk_geography
+        description: "Surrogate key for geography"
+        tests:
+          - unique
+          - not_null
+      - name: city
+        description: "Place of order: City"
+      - name: state
+        description: "Place of order: State"
       - name: region
-        description: "The region this employee is responsible for"
+        description: "Place of order: Region"
+      - name: country
+        description: "Place of order: Country"
+      - name: created_at
+        description: "Date whenever a new line is created"
+  - name: dim_date # nova tabela 
+    columns:
+      - name: sk_date
+        description: "Surrogate key for date"
+        tests:
+          - unique
+          - not_null
+#      - name: 
+#        description: "Place of order: City"
+#      - name: state
+#        description: "Place of order: State"
+#      - name: region
+#        description: "Place of order: Region"
+#      - name: country
+#        description: "Place of order: Country"
+#      - name: created_at
+#        description: "Date whenever a new line is created"
+  - name: fact_order # nova tabela 
+    columns:
+      - name: sk_customer
+        description: "Surrogate key for customer"
+        # tests:
+        #  - unique
+        #  - not_null
