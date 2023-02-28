@@ -20,7 +20,16 @@ sources:
      - name: t_ship_mode
      - name: t_shipment     
      - name: t_state    
-     - name: t_stock_movement      
+     - name: t_stock_movement   
+  - name: dw
+    database: group1
+    schema: dw
+    tables:
+     - name: dim_customer
+     - name: dim_employee
+     - name: dim_date
+     - name: dim_geography
+     - name: fact_order 
 
 models:
   - name: dim_employee
@@ -94,3 +103,10 @@ models:
 #        description: "Place of order: Country"
 #      - name: created_at
 #        description: "Date whenever a new line is created"
+  - name: fact_order # nova tabela 
+    columns:
+      - name: sk_customer
+        description: "Surrogate key for customer"
+        # tests:
+        #  - unique
+        #  - not_null
