@@ -1,12 +1,12 @@
 select
-    tor.order_id,
+    tor.order_id, -- não pode ser este order_id pois não é unico. Em vez disso talvez usar como chave primária uma sk que identifica cada linha como uma encomenda 
     dc.sk_customer,
     de.sk_employee,
     dg.sk_geography,
     dd.sk_date as sk_order_date,
-    -- tor.order_date,
+    --tor.order_date,
     dt.sk_date as sk_shipped_date,
-    -- ts.ship_date,
+    --ts.ship_date,
     Case when dt.sk_date is not null Then 'Shipped' Else 'Ordered' End as order_status,
     tsm.ship_mode as ship_mode,
     row_number() OVER (PARTITION BY tol.order_id ORDER BY tor.order_date) AS nr_of_order_lines,
@@ -17,15 +17,15 @@ select
     now() as created_at
 from {{ source("dw", "dim_customer") }} dc
 join {{ source("norm", "t_order")}} tor on dc.customer_id = tor.customer_id
-join {{ source("norm", "t_shipment")}} ts on tor.order_id = ts.order_id
-join {{ source("norm", "t_city")}} tc on ts.city_id = tc.city_id
-join {{ source("norm", "t_employee")}} te on tc.region_id = te.region_id
-join {{ source("dw", "dim_employee")}} de on te.employee_id = de.employee_id
-join {{ source("norm", "t_state")}} tst on tc.state_id = tst.state_id
-join {{ source("norm", "t_region")}} tr on tc.region_id = tr.region_id
-join {{ source("dw", "dim_geography")}} dg on dg.city = tc.city and dg.state = tst.state and dg.region = tr.region 
-join {{ source("dw", "dim_date")}} dd on dd.date = tor.order_date
-join {{ source("dw", "dim_date")}} dt on dt.date = ts.ship_date
-join {{ source("norm", "t_ship_mode")}} tsm on ts.ship_mode_id = tsm.ship_mode_id
-join {{ source("norm", "t_order_line")}} tol on tor.order_id = tol.order_id
+left join {{ source("norm", "t_shipment")}} ts on tor.order_id = ts.order_id
+left join {{ source("norm", "t_city")}} tc on ts.city_id = tc.city_id
+left join {{ source("norm", "t_employee")}} te on tc.region_id = te.region_id
+left join {{ source("dw", "dim_employee")}} de on te.employee_id = de.employee_id
+left join {{ source("norm", "t_state")}} tst on tc.state_id = tst.state_id
+left join {{ source("norm", "t_region")}} tr on tc.region_id = tr.region_id
+left join {{ source("dw", "dim_geography")}} dg on dg.city = tc.city and dg.state = tst.state and dg.region = tr.region 
+left join {{ source("dw", "dim_date")}} dd on dd.date = tor.order_date
+left join {{ source("dw", "dim_date")}} dt on dt.date = ts.ship_date
+left join {{ source("norm", "t_ship_mode")}} tsm on ts.ship_mode_id = tsm.ship_mode_id
+left join {{ source("norm", "t_order_line")}} tol on tor.order_id = tol.order_id
 
