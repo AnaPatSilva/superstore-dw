@@ -4,3 +4,4 @@ select
     e.name as employee_name,
     now() as created_at -- registo de quando uma dada linha é criada 
 from {{ source("norm", "t_employee") }} e
+join {{ source("norm", "t_region")}} tr on e.region_id = tr.region_id
