@@ -17,7 +17,7 @@ select
     now() as created_at
 from {{ source("dw", "dim_customer") }} dc
 join {{ source("norm", "t_order")}} tor on dc.customer_id = tor.customer_id
-left join {{ source("norm", "t_shipment")}} ts on tor.order_id = ts.order_id
+left join {{ source("norm", "t_shipment")}} ts on tor.order_id = ts.order_id -- existem encomendas sem shipment daí ser um left join 
 left join {{ source("norm", "t_city")}} tc on ts.city_id = tc.city_id
 left join {{ source("norm", "t_employee")}} te on tc.region_id = te.region_id
 left join {{ source("dw", "dim_employee")}} de on te.employee_id = de.employee_id

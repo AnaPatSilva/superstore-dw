@@ -2,7 +2,7 @@ version: 2
 
 snapshots:
   - name: sp_employee
-    description: "A snapshot of the stg_employee model, to keep track of changes to that table"
+    description: "A snapshot of the dim_employee model, to keep track of changes to that table"
     columns:
       - name: dbt_scd_id
         description: "A surrogate key created by dbt. It is the primary key of this table"
@@ -17,4 +17,35 @@ snapshots:
         description: "This record is valid from the timestamp in dbt_valid_from until this timestamp. If this is NULL, it means this record is the currently valid version"
       - name: dbt_updated_at
         description: "The timestamp of when this record was last updated"
-
+  - name: sp_customer
+    description: "A snapshot of the dim_customer model, to keep track of changes to that table"
+    columns:
+      - name: dbt_scd_id
+        description: "A surrogate key created by dbt. It is the primary key of this table"
+        tests:
+          - unique
+          - not_null
+      - name: dbt_valid_from
+        description: "This record is valid from this timestamp until the timestamp in dbt_valid_to"
+        tests:
+          - not_null
+      - name: dbt_valid_to
+        description: "This record is valid from the timestamp in dbt_valid_from until this timestamp. If this is NULL, it means this record is the currently valid version"
+      - name: dbt_updated_at
+        description: "The timestamp of when this record was last updated"
+  - name: sp_geography
+    description: "A snapshot of the dim_geography model, to keep track of changes to that table"
+    columns:
+      - name: dbt_scd_id
+        description: "A surrogate key created by dbt. It is the primary key of this table"
+        tests:
+          - unique
+          - not_null
+      - name: dbt_valid_from
+        description: "This record is valid from this timestamp until the timestamp in dbt_valid_to"
+        tests:
+          - not_null
+      - name: dbt_valid_to
+        description: "This record is valid from the timestamp in dbt_valid_from until this timestamp. If this is NULL, it means this record is the currently valid version"
+      - name: dbt_updated_at
+        description: "The timestamp of when this record was last updated"
