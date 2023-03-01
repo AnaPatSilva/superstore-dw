@@ -93,20 +93,14 @@ models:
         tests:
           - unique
           - not_null
-#      - name: 
-#        description: "Place of order: City"
-#      - name: state
-#        description: "Place of order: State"
-#      - name: region
-#        description: "Place of order: Region"
-#      - name: country
-#        description: "Place of order: Country"
-#      - name: created_at
-#        description: "Date whenever a new line is created"
+      - name: date
+        description: "Date"
+        tests:
+          - not_null
   - name: fact_order # nova tabela 
     columns:
       - name: order_id
-        description: "Surrogate key for customer"
+        description: ""
         # tests:
         #  - unique
         #  - not_null
