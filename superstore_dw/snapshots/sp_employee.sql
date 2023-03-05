@@ -5,7 +5,7 @@
         target_schema='snapshots',
         unique_key='employee_id',
         strategy='check',
-        check_cols=['employee_name', 'region']
+        check_cols=['employee_name']
     )
 }}
 
