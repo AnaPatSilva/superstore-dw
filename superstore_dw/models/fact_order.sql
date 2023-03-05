@@ -1,8 +1,42 @@
+select 
+    order_id,
+    sk_customer,
+    sk_employee,
+    sk_geography,
+    sk_order_date,
+    sk_shipped_date,
+    order_status,
+    ship_mode,
+    nr_of_order_lines,
+    quantity,
+    time_to_ship_days,
+    sales,
+    profit,
+    created_at
+from(
+select 
+    order_id, 
+    sk_customer,
+    sk_employee,
+    sk_geography,
+    sk_order_date,
+    sk_shipped_date,
+    order_status,
+    ship_mode,
+    nr_of_order_lines,
+    quantity,
+    time_to_ship_days,
+    sales,
+    profit,
+    created_at,
+    row_number() over (partition by order_id order by nr_of_order_lines desc) as rnk -- enumerar cada linha por order_id
+    -- dense_rank() over (partition by order_id order by nr_of_order_lines desc) as rnk
+from(
 select
-    tor.order_id, -- não pode ser este order_id pois não é unico. Em vez disso talvez usar como chave primária uma sk que identifica cada linha como uma encomenda 
-    dc.sk_customer,
-    de.sk_employee,
-    dg.sk_geography,
+    tor.order_id as order_id, 
+    dc.sk_customer as sk_customer,
+    de.sk_employee as sk_employee,
+    dg.sk_geography as sk_geography,
     dd.sk_date as sk_order_date,
     --tor.order_date,
     dt.sk_date as sk_shipped_date,
@@ -11,7 +45,7 @@ select
     tsm.ship_mode as ship_mode,
     row_number() OVER (PARTITION BY tol.order_id ORDER BY tor.order_date) AS nr_of_order_lines,
     sum(tol.quantity) OVER (PARTITION BY tol.order_id ORDER BY tor.order_date, tol.order_line_id) AS quantity,
-    {{ dbt.datediff("tor.order_date", "ts.ship_date", "day") }} as time_to_ship_days,
+    {{ dbt.datediff("tor.order_date", "ts.ship_date", "day") }} as time_to_ship_days, -- função do dbt para fazer diferença de datas em dias 
     sum(tol.sales) OVER (PARTITION BY tol.order_id ORDER BY tor.order_date, tol.order_line_id) AS sales,
     sum(tol.profit) OVER (PARTITION BY tol.order_id ORDER BY tor.order_date, tol.order_line_id) AS profit,
     now() as created_at
@@ -27,5 +61,6 @@ left join {{ source("dw", "dim_geography")}} dg on dg.city = tc.city and dg.stat
 left join {{ source("dw", "dim_date")}} dd on dd.date = tor.order_date
 left join {{ source("dw", "dim_date")}} dt on dt.date = ts.ship_date
 left join {{ source("norm", "t_ship_mode")}} tsm on ts.ship_mode_id = tsm.ship_mode_id
-left join {{ source("norm", "t_order_line")}} tol on tor.order_id = tol.order_id
+left join {{ source("norm", "t_order_line")}} tol on tor.order_id = tol.order_id) as a ) as b
+where rnk = 1
 
