@@ -62,5 +62,5 @@ left join {{ source("dw", "dim_date")}} dd on dd.date = tor.order_date
 left join {{ source("dw", "dim_date")}} dt on dt.date = ts.ship_date
 left join {{ source("norm", "t_ship_mode")}} tsm on ts.ship_mode_id = tsm.ship_mode_id
 left join {{ source("norm", "t_order_line")}} tol on tor.order_id = tol.order_id) as a ) as b
-where rnk = 1
+where rnk = 1 -- dois select para poder aplicar a condição where (não aceita funções)
 
