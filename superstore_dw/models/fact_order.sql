@@ -29,7 +29,7 @@ select
     sales,
     profit,
     created_at,
-    row_number() over (partition by order_id order by nr_of_order_lines desc) as rnk -- enumerar cada linha por order_id
+    row_number() over (partition by order_id order by nr_of_order_lines desc) as rnk -- enumerar cada linha por order_id e por ordem decrescente 
     -- dense_rank() over (partition by order_id order by nr_of_order_lines desc) as rnk
 from(
 select
