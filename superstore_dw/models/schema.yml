@@ -105,3 +105,13 @@ models:
         tests:
           - unique
           - not_null
+      - name: order_status
+        description: "Order status"
+        tests:
+          - accepted_values:
+              values: ['Ordered', 'Shipped'] # order status deve ser um destes dois          
+      - name: ship_mode
+        description: "Ship mode"
+        tests:
+          - accepted_values:
+              values: ['First Class', 'Same Day', 'Second Class', 'Standard Class'] # ship mode deve ser um destes quatro         
