@@ -1,5 +1,5 @@
 select
-    {{dbt_utils.generate_surrogate_key(['ct.city_id','st.state_id','r.region_id'])}} as sk_geography, -- confirmar qual deve ser o par de chaves primárias 
+    {{dbt_utils.generate_surrogate_key(['ct.city_id','st.state_id','r.region_id'])}} as sk_geography, -- combinação de três colunas 
     ct.city as city, -- usar o city da tabela t.city (necessário fazer join entre as tabelas)
     st.state as state, -- usar o city da tabela t.city (necessário fazer join entre as tabelas)
     r.region as region, -- usar o city da tabela t.city (necessário fazer join entre as tabelas)
